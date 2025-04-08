@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <script>
+        // Redirect to view active teachers
+        function viewTeachers() {
+            window.location.href = '/view_teachers_active';
+        }
+
+        // Redirect to update own information
+        function updateInfo() {
+            window.location.href = '/update_teacher_profile';
+        }
+
+        // Redirect to logout
+        function logout() {
+            window.location.href = '/index.html';
+        }
+    </script>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* Dashboard Title */
+        .dashboard-container h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        /* Dashboard Description */
+        .dashboard-container p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        /* Dashboard Options Buttons */
+        .dashboard-options button {
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: black; /* Change background to black */
+            color: white; /* Change text color to white */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+        }
+
+        .dashboard-options button:hover {
+            background-color: #333; /* Darker black on hover */
+            transform: scale(1.05); /* Slight zoom effect */
+        }
+
+        .dashboard-options button:active {
+            transform: scale(0.95); /* Slight shrink effect */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .dashboard-container {
+                padding: 15px;
+            }
+
+            .dashboard-options button {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Welcome, Teacher!</h1>
+        <p>Please choose an option below:</p>
+
+        <div class="dashboard-options">
+            <button onclick="viewTeachers()">View Active Teachers</button>
+            <button onclick="updateInfo()">Update My Information</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+    </div>
+    
+</body>
+</html>

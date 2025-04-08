@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Teacher</title>
+    <script defer src="edit_teacher.js"></script>
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1>Edit Teacher</h1>
+        </header>
+
+        <form id="editTeacherForm">
+            <div class="input-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="input-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+
+            <div class="input-group">
+                <label for="CNIC">CNIC</label>
+                <input type="text" id="CNIC" name="CNIC" required>
+            </div>
+
+            <div class="input-group">
+                <label for="department">Department</label>
+                <input type="text" id="department" name="department" required>
+            </div>
+
+            <div class="input-group">
+                <label for="date_of_joining">Date of Joining</label>
+                <input type="date" id="date_of_joining" name="date_of_joining" required>
+            </div>
+
+            <div class="input-group">
+                <label for="latest_academic_degree">Latest Academic Degree</label>
+                <input type="text" id="latest_academic_degree" name="latest_academic_degree" required>
+            </div>
+
+            <div class="input-group">
+                <label for="expertise">Expertise</label>
+                <input type="text" id="expertise" name="expertise">
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="input-group">
+                <label for="contact">Contact Number</label>
+                <input type="text" id="contact" name="contact">
+            </div>
+
+            <div class="input-group">
+                <label for="landline">Landline</label>
+                <input type="text" id="landline" name="landline">
+            </div>
+
+            <div class="input-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn">Update Teacher</button>
+        </form>
+    </div>
+    
+</body>
+</html>

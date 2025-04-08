@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Teacher to Edit</title>
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <h1>Select Teacher to Edit</h1>
+        </header>
+
+        <table id="teacherTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dynamic content will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/teachers') // Fetch all teachers
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    const tableBody = document.querySelector('#teacherTable tbody');
+                    tableBody.innerHTML = ''; // Clear existing rows
+        
+                    data.forEach((teacherInfo) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${teacherInfo.id}</td>
+                            <td>${teacherInfo.name}</td>
+                            <td><a href="edit_teacher.html?id=${teacherInfo.id}" class="btn">Edit</a></td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error fetching teachers:', error);
+                });
+        });
+    </script>
+</body>
+</html>

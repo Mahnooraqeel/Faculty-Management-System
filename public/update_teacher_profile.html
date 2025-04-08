@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Teacher Information</title>
+    <style>
+        /* General Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+/* Form Section Styling */
+.form-section {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+input, button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Button Styling */
+button {
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: black;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .form-section {
+        padding: 15px;
+    }
+
+    input, button {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <h1>Edit Teacher Information</h1>
+
+    <!-- Step 1: Enter CNIC -->
+    <div id="step-1" class="form-section">
+        <h3>Step 1: Enter Your CNIC</h3>
+        <form id="validate-cnic-form">
+            <label for="cnic">CNIC:</label>
+            <input type="text" id="cnic" name="cnic" placeholder="Enter your CNIC" required />
+            <button type="submit">Validate CNIC</button>
+        </form>
+        <p id="cnic-message"></p>
+    </div>
+
+    <!-- Step 2: Enter New Information -->
+    <div id="step-2" class="form-section" style="display: none;">
+        <h3>Step 2: Update Your Information</h3>
+        <form id="update-info-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" />
+
+            <label for="expertise">Expertise:</label>
+            <input type="text" id="expertise" name="expertise" placeholder="Enter your expertise" />
+
+            <label for="contact">Contact Number:</label>
+            <input type="text" id="contact" name="contact" placeholder="Enter your contact number" />
+
+            <label for="landline">Landline Number:</label>
+            <input type="text" id="landline" name="landline" placeholder="Enter your landline number" />
+
+            <input type="hidden" id="cnic-hidden" name="cnic" />
+
+            <button type="submit">Update Information</button>
+        </form>
+        <p id="update-message"></p>
+    </div>
+
+    <script>
+        const validateCnicForm = document.getElementById('validate-cnic-form');
+        const updateInfoForm = document.getElementById('update-info-form');
+        const step2 = document.getElementById('step-2');
+        const cnicHidden = document.getElementById('cnic-hidden');
+
+        // Handle CNIC validation
+        validateCnicForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const cnic = document.getElementById('cnic').value;
+
+            try {
+                const response = await fetch('/validate-teacher-cnic', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ cnic }),
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    document.getElementById('cnic-message').textContent = data.message;
+                    step2.style.display = 'block';
+                    cnicHidden.value = cnic; // Store the validated CNIC
+                } else {
+                    document.getElementById('cnic-message').textContent = data.message || 'Validation failed';
+                }
+            } catch (error) {
+                console.error('Error validating CNIC:', error);
+            }
+        });
+
+        // Handle teacher info update
+        updateInfoForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(updateInfoForm);
+            const data = Object.fromEntries(formData);
+
+            try {
+                const response = await fetch('/update-teacher-info', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+                document.getElementById('update-message').textContent = result.message || 'Update failed';
+            } catch (error) {
+                console.error('Error updating information:', error);
+            }
+        });
+    </script>
+</body>
+</html>

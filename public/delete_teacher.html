@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Teacher</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Optional: Add your CSS file -->
+</head>
+<style>
+    /* Delete Teacher Page Styles */
+
+/* Form Container */
+form {
+    background-color: var(--accent-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow var(--transition-speed);
+}
+
+form:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Form Labels */
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+}
+
+/* Select Dropdown */
+select {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    font-size: 1rem;
+    transition: border-color var(--transition-speed);
+}
+
+select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Button */
+button[type="submit"] {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: var(--accent-color);
+    font-weight: 600;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button[type="submit"]:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+</style>
+<body>
+    <h1>Delete Teacher</h1>
+    <form action="/delete_teacher" method="POST">
+        <label for="teacherId">Select Teacher to Delete:</label>
+        <select name="teacherId" id="teacherId" required>
+            <!-- Populate this dynamically with teacher IDs and names -->
+        </select>
+        <button type="submit">Delete</button>
+    </form>
+
+    <script>
+        // Fetch the list of teachers and populate the dropdown
+        fetch('/teachers')
+            .then(response => response.json())
+            .then(data => {
+                const teacherSelect = document.getElementById('teacherId');
+                data.forEach(teacher => {
+                    const option = document.createElement('option');
+                    option.value = teacher.id;
+                    option.textContent = `${teacher.name} (ID: ${teacher.id})`;
+                    teacherSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching teachers:', error));
+    </script>
+</body>
+</html>

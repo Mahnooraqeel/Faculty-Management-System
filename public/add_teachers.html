@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Teacher</title>
+    <style>
+        /* Styles remain unchanged */
+        #addTeacherForm {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 2rem auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            font-size: 1rem;
+        }
+
+        input:focus, select:focus {
+            border-color: black;
+            outline: none;
+        }
+
+        input.invalid, select.invalid {
+            border-color: red;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 1rem;
+            background-color: black;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: black;
+        }
+    </style>
+    <script>
+        // Client-side validation function
+        function validateForm() {
+            const form = document.getElementById('addTeacherForm');
+            const name = form.name.value.trim();
+            const age = parseInt(form.age.value.trim(), 10);
+            const cnic = form.CNIC.value.trim();
+            const password = form.password.value.trim();
+            const contact = form.contact.value.trim();
+
+            let isValid = true;
+
+            // Clear previous error messages
+            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+
+            // Name validation
+            if (name === '') {
+                showError('name', 'Name is required.');
+                isValid = false;
+            }
+
+            // Age validation
+            if (isNaN(age) || age < 19 || age > 59) {
+                showError('age', 'Age must be between 19 and 59.');
+                isValid = false;
+            }
+
+            // CNIC validation
+            if (cnic.length !== 13 || !/^\d+$/.test(cnic)) {
+                showError('CNIC', 'CNIC must be exactly 13 digits.');
+                isValid = false;
+            }
+
+            // Password validation
+            if (password.length < 8 || password.length > 15) {
+                showError('password', 'Password must be between 8 and 15 characters.');
+                isValid = false;
+            }
+
+            // Contact validation
+            if (contact && (contact.length < 11 || contact.length > 15)) {
+                showError('contact', 'Contact number must be between 11 and 15 characters.');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Show error message for a specific field
+        function showError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const errorElement = field.nextElementSibling;
+            field.classList.add('invalid');
+            if (errorElement) errorElement.textContent = message;
+        }
+
+        // Remove error highlight on input change
+        function clearError(event) {
+            event.target.classList.remove('invalid');
+            const errorElement = event.target.nextElementSibling;
+            if (errorElement) errorElement.textContent = '';
+        }
+
+        // Handle form submission
+        async function addTeacher(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            if (!validateForm()) return; // Stop submission if validation fails
+
+            const formData = new FormData(document.getElementById('addTeacherForm'));
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/teachers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message); // Show alert for success
+                    window.location.href = '/admindashboard'; // Redirect to admin dashboard
+                } else {
+                    alert(result.message); // Show alert for server-side errors
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while adding the teacher.');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Add Teacher</h1>
+    <form id="addTeacherForm" onsubmit="addTeacher(event)">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <div class="error-message"></div>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+        <div class="error-message"></div>
+
+        <label for="cnic">CNIC:</label>
+        <input type="text" id="cnic" name="CNIC" required>
+        <div class="error-message"></div>
+
+        <label for="department">Department:</label>
+        <input type="text" id="department" name="department" required>
+        <div class="error-message"></div>
+
+        <label for="date_of_joining">Date of Joining:</label>
+        <input type="date" id="date_of_joining" name="date_of_joining" required>
+        <div class="error-message"></div>
+
+        <label for="latest_academic_degree">Latest Academic Degree:</label>
+        <input type="text" id="latest_academic_degree" name="latest_academic_degree" required>
+        <div class="error-message"></div>
+
+        <label for="expertise">Expertise:</label>
+        <input type="text" id="expertise" name="expertise">
+        <div class="error-message"></div>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <div class="error-message"></div>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <div class="error-message"></div>
+
+        <label for="contact">Contact:</label>
+        <input type="text" id="contact" name="contact">
+        <div class="error-message"></div>
+
+        <label for="landline">Landline:</label>
+        <input type="text" id="landline" name="landline">
+        <div class="error-message"></div>
+
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="1">Active</option>
+            <option value="0">Inactive</option>
+        </select>
+        <div class="error-message"></div>
+
+        <button type="submit">Add Teacher</button>
+    </form>
+</body>
+</html>
